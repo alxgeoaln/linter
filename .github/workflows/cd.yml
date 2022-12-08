@@ -1,0 +1,28 @@
+name: Continuous Deployment
+
+on:
+  merge:
+    branches:
+      - staging 
+
+jobs:
+   beta-distribution:
+    name: Beta Distribution
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+      - uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install node modules
+        run: |
+          yarn install
+
+      - name: Run Lint
+        run: |
+          yarn lint
+
+      - name: Run test
+        run: |
+          yarn test
